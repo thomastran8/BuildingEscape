@@ -40,6 +40,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 void UGrabber::Grab()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Grab pressed"));
+	GetFirstPhysicsBodyInReach();
 }
 
 void UGrabber::Release()
