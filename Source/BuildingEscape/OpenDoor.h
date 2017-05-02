@@ -21,6 +21,7 @@ protected:
 
 	void OpenDoor();
 	void CloseDoor();
+	float GetTotalMassOfActorsOnPlate();
 
 public:	
 	// Called every frame
@@ -33,8 +34,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
 	
-	UPROPERTY(VisibleAnywhere)
-	AActor* ActorThatOpens;
+	//UPROPERTY(VisibleAnywhere)
+	//AActor* ActorThatOpens;
 
 	UPROPERTY(EditAnywhere)
 	float DoorCloseDelay = 0.5f;
