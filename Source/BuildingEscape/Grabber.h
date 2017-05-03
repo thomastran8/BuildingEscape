@@ -26,7 +26,7 @@ public:
 private:
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
-	float Reach = 120.0f;
+	float Reach = 160.0f;
 	
 	UPhysicsHandleComponent* PhysicsHandle = nullptr;
 	UInputComponent* InputComponent = nullptr;
