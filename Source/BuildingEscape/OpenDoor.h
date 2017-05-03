@@ -43,4 +43,6 @@ private:
 	float LastDoorOpenTime;
 
 	AActor* Owner;
+
+	float TotalMass = 0.0f;
 };
