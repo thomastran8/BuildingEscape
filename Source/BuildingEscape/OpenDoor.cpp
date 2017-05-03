@@ -21,7 +21,8 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	CheckPressurePlate();
 	Owner = GetOwner();
 }
 
@@ -59,13 +60,24 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 {
 	TArray<AActor*> OverlappingActors;
 
+	if (!PressurePlate)
+		return 0.0f;
+
 	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 
 	for (const auto* CurrentActor : OverlappingActors)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CurrentActor: %s"), *CurrentActor->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("CurrentActor: %s"), *CurrentActor->GetName());
 		TotalMass += CurrentActor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 	}
 
 	return TotalMass;
+}
+
+void UOpenDoor::CheckPressurePlate()
+{
+	if (!PressurePlate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Reference to PressurePlate not found on %s"), *GetOwner()->GetName());
+	}
 }

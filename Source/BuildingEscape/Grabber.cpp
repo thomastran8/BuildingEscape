@@ -37,6 +37,9 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void UGrabber::Grab()
 {
+	if (!PhysicsHandle)
+		return;
+
 	GetPlayerLocationRotation();
 	FHitResult HitResult = GetFirstPhysicsBodyInReach();
 	UPrimitiveComponent* ComponentToGrab = HitResult.GetComponent();
@@ -47,6 +50,9 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandle)
+		return;
+
 	PhysicsHandle->ReleaseComponent();
 }
 
@@ -55,7 +61,7 @@ void UGrabber::FindPhysicsHandleComponent()
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (!PhysicsHandle)
 	{
-		UE_LOG(LogTemp, Error, TEXT("No PhysicsHandleComponent found for %s!"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("PhysicsHandleComponent not found for %s!"), *GetOwner()->GetName());
 	}
 }
 
@@ -64,13 +70,12 @@ void UGrabber::SetupInputComponent()
 	InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
 	if (!InputComponent)
 	{
-		UE_LOG(LogTemp, Error, TEXT("No InputComponent found for %s"), *GetOwner()->GetName());
+		UE_LOG(LogTemp, Error, TEXT("InputComponent not found for %s"), *GetOwner()->GetName());
+		return;
 	}
-	else
-	{
-		InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
-		InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
-	}
+
+	InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	InputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Release);
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
@@ -87,6 +92,9 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
 
 void UGrabber::MoveObjectToGrabLocation()
 {
+	if (!PhysicsHandle)
+		return;
+
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		GetPlayerLocationRotation();
